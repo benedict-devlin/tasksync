@@ -1,0 +1,26 @@
+[Unit]
+Description=TaskSync - Google Tasks to Todoist Synchronizer
+After=network.target
+
+[Service]
+Type=simple
+User=%u
+WorkingDirectory=%h/tasksync
+Environment="PATH=%h/tasksync/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=%h/tasksync/.env
+ExecStart=%h/tasksync/.venv/bin/tasksync start
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tasksync
+
+# Security & resource limits
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=%h/tasksync
+
+[Install]
+WantedBy=default.target
