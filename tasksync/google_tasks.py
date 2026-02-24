@@ -44,7 +44,14 @@ class GoogleTasksClient:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     self.credentials_path, self.SCOPES
                 )
-                creds = flow.run_local_server(port=0)
+                # Try to open browser, but fall back to manual URL if headless
+                try:
+                    creds = flow.run_local_server(port=0, open_browser=True)
+                except Exception as e:
+                    print(f"\n⚠️  Browser auto-open failed (headless environment): {e}")
+                    print("\n📋 Manual OAuth Setup:")
+                    print("   Please open this URL in your browser on another machine:")
+                    creds = flow.run_local_server(port=0, open_browser=False)
 
             # Save the credentials for next time
             with open("token.json", "wb") as token:
