@@ -4,7 +4,6 @@ After=network.target
 
 [Service]
 Type=simple
-User=%u
 WorkingDirectory=%h/tasksync
 Environment="PATH=%h/tasksync/.venv/bin:/usr/local/bin:/usr/bin:/bin"
 EnvironmentFile=%h/tasksync/.env
@@ -14,13 +13,6 @@ RestartSec=10
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=tasksync
-
-# Security & resource limits
-NoNewPrivileges=true
-PrivateTmp=true
-ProtectSystem=strict
-ProtectHome=yes
-ReadWritePaths=%h/tasksync
 
 [Install]
 WantedBy=default.target
