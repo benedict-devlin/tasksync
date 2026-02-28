@@ -1,0 +1,19 @@
+[Unit]
+Description=TaskSync - Google Tasks to Todoist Synchronizer
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/tasksync
+Environment="PATH=/home/pi/tasksync/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/home/pi/tasksync/.env
+ExecStart=/home/pi/tasksync/.venv/bin/tasksync start
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
