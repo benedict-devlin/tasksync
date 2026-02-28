@@ -12,7 +12,6 @@ Restart=on-failure
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=tasksync
 
 [Install]
 WantedBy=default.target
