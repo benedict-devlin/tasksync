@@ -12,6 +12,7 @@ Restart=on-failure
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
+DynamicUser=no
 
 [Install]
 WantedBy=default.target
