@@ -33,6 +33,15 @@ class TaskSyncer:
         self.created_after = created_after
         self.logger = logging.getLogger(__name__)
 
+    def _format_title(self, title: str) -> str:
+        """Normalize and title-case task titles for Todoist.
+
+        Uses simple `.title()` casing after stripping whitespace.
+        """
+        if not title:
+            return title
+        return title.strip().title()
+
     def authenticate(self):
         """Authenticate with both services."""
         self.logger.info("Authenticating with Google Tasks...")
@@ -68,8 +77,8 @@ class TaskSyncer:
             self.logger.debug("Fetching tasks from Todoist...")
             todoist_tasks = self.todoist_client.get_tasks()
 
-            # Build lookup map for Todoist tasks
-            todoist_by_title: Dict[str, Task] = {t.title: t for t in todoist_tasks}
+            # Build lookup map for Todoist tasks using normalized titles
+            todoist_by_title: Dict[str, Task] = {self._format_title(t.title): t for t in todoist_tasks}
 
             # Sync from Google Tasks to Todoist
             for google_task in google_tasks:
@@ -79,11 +88,10 @@ class TaskSyncer:
                     )
                     continue
 
-                if google_task.title in todoist_by_title:
+                formatted_title = self._format_title(google_task.title)
+                if formatted_title in todoist_by_title:
                     # Task already exists in Todoist, skip it
-                    self.logger.debug(
-                        f"Task already synced to Todoist, skipping: {google_task.title}"
-                    )
+                    self.logger.debug(f"Task already synced to Todoist, skipping: {google_task.title}")
                     continue
                 else:
                     # Create new task in Todoist
@@ -91,7 +99,7 @@ class TaskSyncer:
                     if not self.dry_run:
                         try:
                             self.todoist_client.create_task(
-                                title=google_task.title,
+                                title=formatted_title,
                                 description=google_task.description,
                                 due_date=google_task.due_date,
                                 priority=google_task.priority,
@@ -131,7 +139,7 @@ class TaskSyncer:
             self.logger.debug(f"Syncing task to Todoist: {google_task.title}")
             if not self.dry_run:
                 self.todoist_client.create_task(
-                    title=google_task.title,
+                    title=self._format_title(google_task.title),
                     description=google_task.description,
                     due_date=google_task.due_date,
                     priority=google_task.priority,
