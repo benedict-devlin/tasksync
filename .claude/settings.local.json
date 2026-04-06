@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(pnpm --version)",
+      "Bash(powershell.exe -Command \"node --version; npm --version; pnpm --version\")",
+      "Bash(powershell.exe -Command \"docker --version; docker ps\")",
+      "Bash(powershell.exe -Command \"winget install OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements\")",
+      "Bash(powershell.exe -Command \"winget install PostgreSQL.PostgreSQL.17 --accept-source-agreements --accept-package-agreements\")",
+      "Read(//c/Program Files/PostgreSQL/17/data/log//**)",
+      "Read(//c/Program Files/PostgreSQL/17/data/**)",
+      "Bash(cmd.exe /c \"echo SELECT version\\(\\); | \"\"C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin\\\\psql.exe\"\" -U postgres -p 5432 -w 2>&1\")",
+      "Bash(export PATH=\"/c/Program Files/nodejs:$PATH\")",
+      "Bash(/c/Users/bened/AppData/Roaming/npm/pnpm --filter @runplanner/types build)",
+      "Bash(/c/Users/bened/AppData/Roaming/npm/pnpm --filter @runplanner/zones build)",
+      "Bash(/c/Users/bened/AppData/Roaming/npm/pnpm --filter @runplanner/tss build)",
+      "Bash(export PATH=\"/c/Program Files/nodejs:$PATH\" cd /c/Users/bened/workspace/runplanner/apps/web ./node_modules/.bin/next build)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"next start\")"
+    ]
+  }
+}
