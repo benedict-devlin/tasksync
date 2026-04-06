@@ -1,6 +1,7 @@
 [Unit]
 Description=TaskSync - Google Tasks to Todoist Synchronizer
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
@@ -13,6 +14,7 @@ RestartSec=10
 StandardOutput=journal
 StandardError=journal
 DynamicUser=no
+SupplementaryGroups=
 
 [Install]
 WantedBy=default.target
