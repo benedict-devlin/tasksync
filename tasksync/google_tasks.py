@@ -31,9 +31,11 @@ class GoogleTasksClient:
         """Authenticate with Google Tasks API using OAuth2."""
         creds = None
 
+        token_path = os.path.join(os.path.dirname(os.path.abspath(self.credentials_path)), "token.json")
+
         # Check for existing token
-        if os.path.exists("token.json"):
-            with open("token.json", "rb") as token:
+        if os.path.exists(token_path):
+            with open(token_path, "rb") as token:
                 creds = pickle.load(token)
 
         # If no valid credentials, get new ones
@@ -54,7 +56,7 @@ class GoogleTasksClient:
                     creds = flow.run_local_server(port=0, open_browser=False)
 
             # Save the credentials for next time
-            with open("token.json", "wb") as token:
+            with open(token_path, "wb") as token:
                 pickle.dump(creds, token)
 
         self.creds = creds
